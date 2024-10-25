@@ -43,7 +43,6 @@ def get_db():
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
-
 @app.post("/products/", tags=["products"])
 async def create_product(product: BaseProduct, db: db_dependency):
     new_product = models.Product(**product.dict())
@@ -58,7 +57,6 @@ async def create_product(product: BaseProduct, db: db_dependency):
 async def get_products(db: db_dependency, tags=["products"]):
     products = db.query(models.Product).all()
     return products
-
 
 @app.get("/products/{product_id}", tags=["products"])
 async def get_product(product_id: int, db: db_dependency):
