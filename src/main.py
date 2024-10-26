@@ -77,3 +77,13 @@ async def update_product(product_id: int, product: BaseProduct, db: db_dependenc
     db.commit()
     db.refresh(product_db)
     return product_db
+
+
+@app.delete("/products/{product_id}", tags=["products"])
+async def delete_product(product_id: int, db: db_dependency):
+    product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    db.delete(product)
+    db.commit()
+    return product
